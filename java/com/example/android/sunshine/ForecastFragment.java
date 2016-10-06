@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -71,14 +74,31 @@ public class ForecastFragment extends Fragment {
         return fragment;
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.forecastfragment, menu);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id == R.id.action_refresh){
+            FetchWeatherTask weatherTask = new FetchWeatherTask();
+            weatherTask.execute();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,8 +153,8 @@ public class ForecastFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
 
-    public class FetchWeatherCast extends AsyncTask<Void, Void, Void> {
-        private final String LOG_TAG = FetchWeatherCast.class.getSimpleName();
+    public class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
+        private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
         @Override
         protected Void doInBackground(Void... params) {
             // These two need to be declared outside the try/catch
