@@ -102,7 +102,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("Cairo");
+            weatherTask.execute("Reykjavik");
             return true;
         }
 
@@ -118,8 +118,9 @@ public class ForecastFragment extends Fragment {
         String[] fake = {"Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63"};
 
         List<String> WeekFake = new ArrayList<String>(Arrays.asList(fake));
-
+        FetchWeatherTask week = new FetchWeatherTask();
         mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, WeekFake);
+        week.execute("Cairo");
         ListView Week = (ListView) rootView.findViewById(R.id.listview_forecast);
 
 
