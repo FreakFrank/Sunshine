@@ -1,6 +1,7 @@
 package com.example.android.sunshine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.FeatureGroupInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import static android.app.SearchManager.QUERY;
 import static com.example.android.sunshine.R.id.list_item_forecast_textview;
+import static com.example.android.sunshine.R.menu.detail;
 
 
 /**
@@ -130,7 +132,9 @@ public class ForecastFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView Week = (ListView)rootView.findViewById(R.id.listview_forecast);
                 String x = (String) Week.getItemAtPosition(position);
-                Toast.makeText(getActivity(),x,Toast.LENGTH_SHORT).show();
+                Intent detail = new Intent();
+                detail.setClass(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,x);
+                startActivity(detail);
             }
         });
 
