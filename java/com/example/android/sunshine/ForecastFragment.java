@@ -14,8 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.app.SearchManager.QUERY;
+import static com.example.android.sunshine.R.id.list_item_forecast_textview;
 
 
 /**
@@ -114,15 +117,22 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
         String[] fake = {"Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63", "Today-Sunny-88/63"};
 
         List<String> WeekFake = new ArrayList<String>(Arrays.asList(fake));
         FetchWeatherTask week = new FetchWeatherTask();
-        mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, WeekFake);
+        mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, list_item_forecast_textview, WeekFake);
         week.execute("Cairo");
         ListView Week = (ListView) rootView.findViewById(R.id.listview_forecast);
-
+        Week.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView Week = (ListView)rootView.findViewById(R.id.listview_forecast);
+                String x = (String) Week.getItemAtPosition(position);
+                Toast.makeText(getActivity(),x,Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Week.setAdapter(mForecastAdapter);
         return rootView;
