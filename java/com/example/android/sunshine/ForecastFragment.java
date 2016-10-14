@@ -2,10 +2,12 @@ package com.example.android.sunshine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.FeatureGroupInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.R.attr.x;
 import static android.app.SearchManager.QUERY;
 import static com.example.android.sunshine.R.id.list_item_forecast_textview;
 import static com.example.android.sunshine.R.menu.detail;
@@ -49,22 +52,14 @@ import static com.example.android.sunshine.R.menu.detail;
  * create an instance of this fragment.
  */
 public class ForecastFragment extends Fragment {
-    static ArrayAdapter<String> mForecastAdapter;
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    static ArrayAdapter<String> mForecastAdapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public ForecastFragment() {
@@ -107,13 +102,17 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("Reykjavik");
+            String location = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key), getString(R.string.pref_default_value));
+            weatherTask.execute(location);
+            return true;
+        }
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,15 +124,16 @@ public class ForecastFragment extends Fragment {
         List<String> WeekFake = new ArrayList<String>(Arrays.asList(fake));
         FetchWeatherTask week = new FetchWeatherTask();
         mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, list_item_forecast_textview, WeekFake);
-        week.execute("Cairo");
+        String location = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key), getString(R.string.pref_default_value));
+        week.execute(location);
         ListView Week = (ListView) rootView.findViewById(R.id.listview_forecast);
-        Week.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        Week.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView Week = (ListView)rootView.findViewById(R.id.listview_forecast);
+                ListView Week = (ListView) rootView.findViewById(R.id.listview_forecast);
                 String x = (String) Week.getItemAtPosition(position);
                 Intent detail = new Intent();
-                detail.setClass(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT,x);
+                detail.setClass(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, x);
                 startActivity(detail);
             }
         });
@@ -141,6 +141,7 @@ public class ForecastFragment extends Fragment {
         Week.setAdapter(mForecastAdapter);
         return rootView;
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -163,6 +164,11 @@ public class ForecastFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
     }
 
     /**
