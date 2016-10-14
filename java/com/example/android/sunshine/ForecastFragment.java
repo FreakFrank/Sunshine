@@ -7,6 +7,8 @@ import android.content.pm.FeatureGroupInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -103,6 +106,7 @@ public class ForecastFragment extends Fragment {
         if (id == R.id.action_refresh) {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
             String location = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key), getString(R.string.pref_default_value));
+
             weatherTask.execute(location);
             return true;
         }
@@ -125,6 +129,7 @@ public class ForecastFragment extends Fragment {
         FetchWeatherTask week = new FetchWeatherTask();
         mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, list_item_forecast_textview, WeekFake);
         String location = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(getString(R.string.pref_location_key), getString(R.string.pref_default_value));
+
         week.execute(location);
         ListView Week = (ListView) rootView.findViewById(R.id.listview_forecast);
         Week.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -198,9 +203,19 @@ public class ForecastFragment extends Fragment {
          */
         private String formatHighLows(double high, double low) {
             // For presentation, assume the user doesn't care about tenths of a degree.
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPrefs.getString(getString(R.string.temp_key), getString(R.string.metric_unit));
+            if (unitType.equals(getString(R.string.imperial_unit))) {
+                                high = (high * 1.8) + 32;
+                                high = (low * 1.8) + 32;
+                Log.d("hahah", "I entered here " + unitType);
+                            }
+            else if (!unitType.equals(getString(R.string.metric_unit))) {
+                               //Log.d("hahah", "Unit type not found: " + unitType);
+            }
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
-
             String highLowStr = roundedHigh + "/" + roundedLow;
             return highLowStr;
         }

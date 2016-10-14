@@ -6,9 +6,11 @@
     <string name="pref_location_label" translatable="false">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_default_value" translatable="false">Cairo</string>
-    <string name="temp_default_value">Mertic</string>
-    <string name="temp_key">temprature</string>
+    <string name="temp_default_value">metric</string>
+    <string name="temp_key" translatable="false">units</string>
     <string name="temp_title">Your preferred temprature</string>
     <string name="metric_entry">Metric</string>
     <string name="imperial_entry">Imperial</string>
+    <string name="imperial_unit">imperial</string>
+    <string name="metric_unit">metric</string>
 </resources>

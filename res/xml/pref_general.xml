@@ -12,6 +12,6 @@
         android:defaultValue="@string/temp_default_value"
         android:key="@string/temp_key"
         android:title="@string/temp_title"
-        android:entries="@array/temp_entry_values"
-        android:entryValues="@array/temp_check_boxes"></ListPreference>
+        android:entries="@array/temp_entries"
+        android:entryValues="@array/temp_units"></ListPreference>
 </PreferenceScreen>
