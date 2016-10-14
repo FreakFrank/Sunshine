@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="temp_entry_values">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+    <array name="temp_check_boxes">
+        <item><ChechBox></ChechBox></item>
+        <item><CheckBox></CheckBox></item>
+    </array>
+</resources>
