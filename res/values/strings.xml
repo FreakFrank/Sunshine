@@ -13,4 +13,6 @@
     <string name="imperial_entry">Imperial</string>
     <string name="imperial_unit">imperial</string>
     <string name="metric_unit">metric</string>
+    <string name="show_map">Show my location</string>
+    <string name="show_map_key" translatable="false">show_map</string>
 </resources>

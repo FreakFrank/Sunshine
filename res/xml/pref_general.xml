@@ -13,5 +13,11 @@
         android:key="@string/temp_key"
         android:title="@string/temp_title"
         android:entries="@array/temp_entries"
-        android:entryValues="@array/temp_units"></ListPreference>
+        android:entryValues="@array/temp_units">
+    </ListPreference>
+    <Preference
+        android:title="@string/show_map"
+        android:key="@string/show_map_key"
+        >
+    </Preference>
 </PreferenceScreen>

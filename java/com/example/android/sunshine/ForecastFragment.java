@@ -209,7 +209,7 @@ public class ForecastFragment extends Fragment {
             if (unitType.equals(getString(R.string.imperial_unit))) {
                                 high = (high * 1.8) + 32;
                                 high = (low * 1.8) + 32;
-                Log.d("hahah", "I entered here " + unitType);
+               // Log.d("hahah", "I entered here " + unitType);
                             }
             else if (!unitType.equals(getString(R.string.metric_unit))) {
                                //Log.d("hahah", "Unit type not found: " + unitType);
